@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Удаление статьи {% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    <div class="delete">
+        <h1>Удаление статьи</h1>
+        <form method="post">{% csrf_token %}
+            <p class="article-label">Вы уверены, что хотите удалить статью <span>"{{ object.title }}"</span>?</p>
+            <div class="btn-left-delete">
+                <a class="button btn-back" href="{% url 'main:person' %}">Вернуться</a>
+                <input class="button btn-article" type="submit" value="Удалить" />
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

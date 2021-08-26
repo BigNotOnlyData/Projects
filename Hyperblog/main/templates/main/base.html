@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Главная{% endblock %}</title>
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mulish&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="head">
+            <header class="header">
+                <h1 class="logo"><a href="{% url 'main:welcome' %}">HyperBlog</a></h1>
+
+                {% with url_name=request.resolver_match.url_name %}
+                <nav class="menu">
+                    <ul class="navigation">
+                        <li><a class="menu-link {% if url_name == 'welcome' %}active{% endif %}"
+                           href="{% url 'main:welcome' %}">Главная</a></li>
+                        <li><a class="menu-link {% if url_name == 'publications' %}active{% endif %}" href="{% url 'main:publications' %}">Статьи</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a class="menu-link {% if url_name == 'person' %}active{% endif %}" href="{% url 'main:person' %}">Личная страница</a></li>
+                            <li><a class="menu-link {% if url_name == 'logout' %}active{% endif %}" href="{% url 'main:logout' %}">Выйти</a></li>
+                        {% else %}
+                            <li><a class="menu-link {% if url_name == 'login' %}active{% endif %}" href="{% url 'main:login' %}">Войти</a></li>
+                        {% endif %}
+                        <li><a class="menu-link {% if url_name == 'signup' %}active{% endif %}" href="{% url 'main:signup' %}">Регистрация</a></li>
+                    </ul>
+                </nav>
+                {% endwith %}
+            </header>
+            <section class="user-status">
+                {% if user.is_authenticated %}
+                    <p>Рады вас видеть, {{ user.username }}.</p>
+                {% else %}
+                    <p>Статус: гость</p>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="line"></div>
+
+        {% block content %}
+
+        <section class="top">
+            <div class="top-overlay">
+            </div>
+            <div class="top-content">
+                <h1 class="top-content-heading">Блог, наподобие твитера</h1>
+                <p class="top-content-text">Делай посты и просматривай посты других пользователей </p>
+                <div class="top-btn">
+                    <a class="button btn--red" href="{% url 'main:signup' %}">Зарегистрироваться</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="wrapper">
+            <section class="services">
+                <h2 class="heading">Сервис</h2>
+                <div class="services-content">
+                    <div class="services-item">
+                        <img src="{% static 'img/item-4.ico' %}" alt="write">
+                        <h3 class="services-h3">Пиши</h3>
+                        <p class="services-text">Создавай собсвенные статьи и публикуй их на
+                            сайте для
+                            общего
+                            доступа</p>
+                    </div>
+                    <div class="services-item">
+                        <img src="{% static 'img/item-2.ico' %}" alt="write">
+                        <h3 class="services-h3">Читай</h3>
+                        <p class="services-text">Ищи интересные мысли в
+                            публикациях других пользователей</p>
+                    </div>
+                    <div class="services-item">
+                        <img src="{% static 'img/item-3.ico' %}" alt="write">
+                        <h3 class="services-h3">Комментируй</h3>
+                        <p class="services-text">Делись впечатлениями о прочитанном с другими пользователями</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="pont">
+                <img class="image-pont" src="{% static 'img/top-img.jpg' %}" alt="pont-1">
+                <div class="pont-content">
+                    <h3 class="heading heading-left">Общий блог</h3>
+                    <p class="text">Блог —  веб-сайт, основное содержимое которого — регулярно добавляемые человеком
+                        записи. На нашем сайте любой зарегистрированный пользователь может опубликовать запись в
+                        общую библиотеку.</p>
+                </div>
+            </section>
+
+            <section class="pont">
+                <div class="pont-content">
+                    <h3 class="heading heading-left">Личный кабинет</h3>
+                    <p class="text">Авторизованному пользователю предоставляеться личный кабинет, в котором можно
+                        создавать. редактировать и удалять собственные статьи.</p>
+                    <a href="{% url 'main:signup' %}" class="button btn--red">Зарегистрироваться</a>
+                </div>
+                <img class="image-pont" src="{% static 'img/girl.jpg' %}" alt="pont-1">
+            </section>
+        </div>
+
+        {% endblock %}
+    </div>
+    <footer class="footer">Все права защищены</footer>
+</body>
+</html>

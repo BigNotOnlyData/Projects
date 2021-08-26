@@ -1,0 +1,55 @@
+{% extends 'main/base.html' %}
+
+{% block title %} {{object.title}} {% endblock %}
+
+{% block content %}
+
+<div class="wrapper wrapper-article">
+    <section class="detail-page">
+        <div class="article-content">
+            <div class="top-head-article">
+                <h2 class="article-heading">{{ object.title }}</h2>
+                <h4 class="article-author">Автор: {{ object.author}}</h4>
+                <em class="article-date">{{ object.pub_date}}</em>
+            </div>
+            <div class="body-text">
+                <p class="paragraph">{{ object.body }}</p>
+            </div>
+        </div>
+
+        <div class="article-comments">
+            <h2 class="comment-heading">Комментарии</h2>
+            {% if comments %}
+
+                {% for comment in comments %}
+                    <article class="one-comment">
+                        <p class="comment-author">{{ comment.comment_author }}</p>
+                        <p class="comment-date">{{ comment.comment_date }}</p>
+                        <p class="comment-text">{{ comment.comment_text }}</p>
+                    </article>
+                {% endfor %}
+
+            {% else %}
+                 <p>Комментарии отсутсвуют</p>
+            {% endif %}
+        </div>
+
+        <div class="comment-form">
+
+            {% if user.is_authenticated %}
+                <form  class="comment-form-area" method="post">{% csrf_token %}
+                    <div class="zbc">
+                        <p>{{ form.comment_text }}</p>
+                        <div class="btn-right">
+                            <input class="button-2 btn-comment" type="submit" value="Добавить" />
+                        </div>
+                    </div>
+                </form>
+            {% else %}
+                <p>Только авторизованные пользователи могут оставлять комментарии</p>
+            {% endif %}
+        </div>
+    </section>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Редактирование статьи {% endblock %}
+
+{% block content %}
+
+<div class="wrapper">
+    <div class="article-form">
+        <h2 class="heading-form">Редактирование статьи</h2>
+
+        {% if user.is_authenticated %}
+
+        <form class="form" method="post">
+            {% csrf_token %}
+            <p class="article-label">Название статьи:</p>
+            <p class="article-title">{{ form.title }}</p>
+            <p class="article-label">Контент статьи:</p>
+            <p class="article-text">{{ form.body }}</p>
+            <div class="btn-left">
+                <a class="button btn-back" href="{% url 'main:person' %}">Вернуться</a>
+                <input class="button btn-article btn-article-edit" type="submit" value="Редактировать" />
+            </div>
+        </form>
+
+        {% else %}
+        <p>Только авторизованные пользователи могут создавать статьи</p>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock content %}

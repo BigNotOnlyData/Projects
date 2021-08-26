@@ -1,0 +1,103 @@
+{% extends "main/base.html" %}
+
+{% block title %}Публикации{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    <div class="search">
+        <h2 class="heading">Публикации</h2>
+
+        <form class="search-form" method="get">
+            <input class="search-field" name="q" type="text" placeholder="Поиск...">
+            <button class="button btn-search" type="submit">Искать</button>
+        </form>
+    </div>
+    <div class="publications">
+        {% if page_obj %}
+            {% regroup page_obj|dictsortreversed:"pub_date" by pub_date|date:"Y-m-d" as date_list  %}
+
+            {% for pub_date in date_list %}
+                <div class="group-publications">
+                    <h4 class="group-date">{{pub_date.grouper}}</h4>
+                    <ul class="ul-pub">
+                    {% for article in pub_date.list %}
+
+                        <li class="li-pub">
+                            <a class="pub-link" href="{% url 'main:detail' article.pk %}">{{ article.title }}</a>
+                            <em class="pub-author">Автор: {{ article.author }}</em>
+                        </li>
+
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Ничего не найдено</p>
+        {% endif %}
+    </div>
+
+<!--  Улучшенная пагинация  -->
+    <div class="pagination-block">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <!-- Первая страница -->
+            <li><a class="page-link limit" href="?page=1">&laquo;</a></li>
+            <!-- Показывам кнопку со ссылкой, если есть предыдущая страница -->
+            <li><a class="page-link next" href="?page={{page_obj.previous_page_number}}">&lsaquo;</a></li>
+            {% else %}
+            <!-- Показываем неактивную кнопку, если предыдущей страницы нет -->
+            <li><a>&lsaquo;</a></li>
+            {% endif %}
+
+            <!-- Прибавляем к номеру текущей страницы -4 (т.е. отнимаем 4) -->
+            {% if page_obj.number|add:'-4' > 0 %}
+            <!-- Если до текущей страницы есть больше 4 страниц, показываем многоточие -->
+            <li><a class="ellipsis">...</a></li>
+            {% endif %}
+
+            {% if page_obj.number|add:'-3' > 0 %}
+            <!-- Если до текущей страницы есть ещё три страницы -->
+            <li><a class="page-link" href="?page={{ page_obj.number|add:'-3' }}">{{ page_obj.number|add:'-3' }}</a></li>
+            {% endif %}
+            {% if page_obj.number|add:'-2' > 0 %}
+            <!-- Если до текущей страницы есть ещё две страницы -->
+            <li><a class="page-link" href="?page={{ page_obj.number|add:'-2' }}">{{ page_obj.number|add:'-2' }}</a></li>
+            {% endif %}
+            {% if page_obj.number|add:'-1' > 0 %}
+            <!-- Если до текущей страницы есть ещё одна страница -->
+            <li><a class="page-link" href="?page={{ page_obj.number|add:'-1' }}">{{ page_obj.number|add:'-1' }}</a></li>
+            {% endif %}
+
+            <!-- Номер текущей страницы -->
+            <li><a class="current">{{ page_obj.number }}</a></li>
+
+            {% if page_obj.number|add:'1' <= page_obj.paginator.num_pages %}
+            <!-- Если после текущей страницы есть ещё одна страница -->
+            <li><a class="page-link" href="?page={{ page_obj.number|add:'1' }}">{{ page_obj.number|add:'1' }}</a></li>
+            {% endif %}
+            {% if page_obj.number|add:'2' <= page_obj.paginator.num_pages %}
+            <!-- Если после текущей страницы есть ещё две страницы -->
+            <li><a class="page-link" href="?page={{ page_obj.number|add:'2' }}">{{ page_obj.number|add:'2' }}</a></li>
+            {% endif %}
+            {% if page_obj.number|add:'3' <= page_obj.paginator.num_pages %}
+            <!-- Если после текущей страницы есть ещё три страницы -->
+            <li><a class="page-link" href="?page={{ page_obj.number|add:'3' }}">{{ page_obj.number|add:'3' }}</a></li>
+            {% endif %}
+
+            {% if page_obj.number|add:'4' <= page_obj.paginator.num_pages %}
+            <!-- Если после текущей страницы есть ещё четыре страницы -->
+            <li><a class="ellipsis">...</a></li>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+            <!-- Показывам кнопку со ссылкой, если есть следующая страница -->
+            <li><a class="page-link next" href="?page={{page_obj.next_page_number }}">&rsaquo;</a></li>
+            <li><a class="page-link limit" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a></li>
+            {% else %}
+            <!-- Если нет следующей страницы -->
+            <li><a>&rsaquo;</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
