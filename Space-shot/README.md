@@ -1,6 +1,7 @@
 #Space-shot
-Игра созданная по [туториалу](https://pythonru.com/primery/streljalka-s-pygame-1-sprajt-igroka-i-upravlenie).
+
+Игра созданная по [туториалу](https://pythonru.com/primery/streljalka-s-pygame-1-sprajt-igroka-i-upravlenie) на основе библиотеки [PyGame](https://www.pygame.org/docs/).
 
 Отличается от оригинала:
-+ добавленным меню
-+ добавленным врвгом
++ добавленным меню;
++ добавленным врагом.
