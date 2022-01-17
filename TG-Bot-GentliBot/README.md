@@ -15,6 +15,7 @@
 
 + Файл запуска бота - app.py
 + Предобученные модели в data\models
++ Пример обучения в ML
 + Валидные интенты в data\intents\BOT_CONFIG_INTENTS.json
 + Логика обработки сообщений в handlears\users\
 
