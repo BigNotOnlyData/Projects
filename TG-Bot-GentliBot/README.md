@@ -12,8 +12,7 @@
 
 
 ## Cтруктура бота
-
-![Cтруктура бота](img\GentliBot.png)
+![Cтруктура бота](img/GentliBot.png)
 
 + Файл запуска бота - app.py
 + Предобученные модели в data\models
