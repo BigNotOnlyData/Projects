@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Info{% endblock %}
+
+{% block menu %}
+    <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="/">Главная</a>
+     </li>
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="/info/">О проекте</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-3" >
+        <h3><b>Аннотация</b></h3>
+        <p>На создание этого проекта вдохновила <a
+                href="https://www.youtube.com/watch?v=owHpdlAtGzY&list=LL&index=26&t=467s" class="text-decoration-none">
+            miracl6</a> (YouTube).
+        </p>
+        <p align="justify">Данный веб-сервис позволяет определить на кого из кинозвезд по лицу похож человек.
+            После
+            загрузки фотографии
+            предобученная модель выводит топ 5 самых лучших вариантов с нормализованными значениями точности по
+            полученным актерам\актрисам. Для реализации проекта был использован язык программирования
+            <a href="https://www.python.org/" class="text-decoration-none">Python</a>.
+        </p>
+        <h3><b>Этапы реализации</b></h3>
+        <ul>
+            <li>Сбор датасета</li>
+            <li>Получение векторных представлений изображений</li>
+            <li>Обучение модели</li>
+            <li>Создание веб-приложения</li>
+            <li>Развёртывание на хостинге</li>
+        </ul>
+        <h4><b>Сбор датасета</b></h4>
+        <p align="justify">Для составления датасета была использована библиотека
+            <a href="https://selenium-python.readthedocs.io/" class="text-decoration-none">
+            Selenium</a>, при помощи которой через поисковик
+            Google осуществлялся автоматический поиск и скачивание картинок. В итоге было собрано по 20 картинок
+            для каждой из 135 знаменитости. Однако при таком сборе не все файлы оказались валидными: некоторые не
+            открывались, на некоторых было несколько лиц.
+        </p>
+        <h4><b>Получение векторных представлений</b></h4>
+        <p align="justify">Далее каждая картинка была представлена в виде 128-размерного вектора чисел с помощью
+            библиотеки <a href="https://face-recognition.readthedocs.io/en/latest/readme.html" class="text-decoration-none">
+            face_recognition</a>. Также с помощью нее отсеивались изображения с несколькими лицами. Таким образом
+            теперь можно было обучить модель на этих векторах.</p>
+        <h4><b>Обучение модели</b></h4>
+        <p align="justify">На полученных данных был обучен
+            <a href="https://catboost.ai/en/docs/concepts/python-reference_catboostclassifier" class="text-decoration-none">
+                catboost</a> классификатор. На тестовых данных метрика F1-score = 0.87.</p>
+        <h4><b>Создание веб-приложения</b></h4>
+        <p align="justify">Серверная часть реализована на <a
+                href="https://flask-russian-docs.readthedocs.io/ru/latest/quickstart.html" class="text-decoration-none">
+            Flask</a>. Для фронта был использован <a href="https://getbootstrap.com/" class="text-decoration-none">
+            Bootstrap</a>. Загруженные картинки обрабатываются онлайн без сохранения где бы то ни было.</p>
+        <h4><b>Развёртывание на хостинге</b></h4>
+        <p align="justify">В качестве хостинговой платформы была выбрана <a href="https://www.heroku.com/" class="text-decoration-none">
+            Heroku</a> из-за бесплатного тарифа и простоты развертывания.</p>
+    </div>
+{% endblock %}
